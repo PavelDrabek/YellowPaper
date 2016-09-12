@@ -2,6 +2,10 @@
 using System.Collections;
 using System;
 
+public class PositionArgs : EventArgs {
+	public Vector3 position;
+}
+
 public class Character : MonoBehaviour {
 
 	public float speed = 1;
@@ -14,6 +18,7 @@ public class Character : MonoBehaviour {
 	public Vector2 Position { get { return transform.position.ToVector2(); } private set { transform.position = new Vector3(value.x, value.y, 0); } }
 
 	public event EventHandler<EventArgs> OnCanExit = (sender, e) => {};
+	public event EventHandler<PositionArgs> OnCanMoveInQueue = (sender, e) => {};
 	public event EventHandler<EventArgs> OnMovingStarted = (sender, e) => {};
 	public event EventHandler<EventArgs> OnMovingStopped = (sender, e) => {};
 	public event EventHandler<EventArgs> OnMovingChanged = (sender, e) => {};
@@ -45,6 +50,10 @@ public class Character : MonoBehaviour {
 
 	public void CanExit() {
 		OnCanExit(this, EventArgs.Empty);
+	}
+
+	public void CanMoveInQueue(Vector3 position) {
+		OnCanMoveInQueue(this, new PositionArgs() { position = position });
 	}
 
 	private IEnumerator Move() {

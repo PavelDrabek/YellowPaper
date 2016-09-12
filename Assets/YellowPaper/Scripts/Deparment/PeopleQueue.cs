@@ -39,7 +39,8 @@ public class PeopleQueue : MonoBehaviour {
 	}
 
 	public void SendPosition(int index) {
-		characters[index].MoveToPosition(GetPosition(index));
+//		characters[index].MoveToPosition(GetPosition(index));
+		characters[index].CanMoveInQueue(GetPosition(index));
 	}
 
 	protected virtual Vector2 GetPosition(int index) {

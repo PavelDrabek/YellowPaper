@@ -143,7 +143,7 @@ MonoBehaviour:
   - {fileID: 832522194}
   - {fileID: 29800666}
   nextPersonTimeMin: 2
-  nextPersonTimeMax: 10
+  nextPersonTimeMax: 5
 --- !u!1 &29800665
 GameObject:
   m_ObjectHideFlags: 0
