@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Character : MonoBehaviour {
 
@@ -12,34 +13,49 @@ public class Character : MonoBehaviour {
 
 	public Vector2 Position { get { return transform.position.ToVector2(); } private set { transform.position = new Vector3(value.x, value.y, 0); } }
 
+	public event EventHandler<EventArgs> OnCanExit = (sender, e) => {};
+	public event EventHandler<EventArgs> OnMovingStarted = (sender, e) => {};
+	public event EventHandler<EventArgs> OnMovingStopped = (sender, e) => {};
+	public event EventHandler<EventArgs> OnMovingChanged = (sender, e) => {};
 
 	void Awake() {
-		animator = GetComponentInChildren<CharacterAnimator>();
+		MyAwake();
 	}
 
 	void Start() {
-		UpdateSortLayer();
+		MyStart();
 	}
 
-	public void Exit() {
-		MoveToPosition(department.GetExitPosition());
+	virtual protected void MyAwake() {
+		animator = GetComponentInChildren<CharacterAnimator>();
+	}
+
+	virtual protected void MyStart() {
+		UpdateSortLayer();
 	}
 
 	public void MoveToPosition(Vector2 position) {
 		destination = position;
 		if(!moving) {
 			StartCoroutine(Move());
+		} else {
+			OnMovingChanged(this, EventArgs.Empty);
 		}
+	}
+
+	public void CanExit() {
+		OnCanExit(this, EventArgs.Empty);
 	}
 
 	private IEnumerator Move() {
 		moving = true;
-		Vector2 distance;
+		OnMovingStarted(this, EventArgs.Empty);
 
+		Vector2 distance;
 		Debug.Log("start moving: " + (destination - Position).magnitude + ", speed: " + speed * Time.deltaTime);
 
 		while((distance = (destination - Position)).magnitude > speed * Time.deltaTime) {
-			Debug.Log("move");
+//			Debug.Log("move");
 
 			Vector2 direction = distance.normalized;
 			Position = Position + direction * speed * Time.deltaTime;
@@ -54,6 +70,7 @@ public class Character : MonoBehaviour {
 
 
 		moving = false;
+		OnMovingStopped(this, EventArgs.Empty);
 	}
 
 	private void UpdateSortLayer() {

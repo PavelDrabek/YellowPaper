@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010916195022}
   - 114: {fileID: 114000013982980458}
+  - 114: {fileID: 114000011764988236}
   m_Layer: 0
   m_Name: professor
   m_TagString: Untagged
@@ -144,6 +145,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ca4383ff08f4963b71ff2cf0872da2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000011764988236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011295673352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c9dcfb8ccaf54fff851c5381f4ac0f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  character: {fileID: 114000013982980458}
 --- !u!114 &114000013982980458
 MonoBehaviour:
   m_ObjectHideFlags: 1

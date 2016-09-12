@@ -23,7 +23,7 @@ public class PeopleQueue : MonoBehaviour {
 			return;
 		}
 
-		characters[0].Exit();
+		characters[0].CanExit();
 		characters.RemoveAt(0);
 
 		StartCoroutine(SendNewPositions());
