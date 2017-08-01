@@ -4,22 +4,38 @@ using Data;
 
 public class CharacterController : MonoBehaviour {
 
-	public NavMeshAgent NavMeshAgent { get; private set; }
+	public NavMeshAgentWithEvents NavMeshAgent { get; private set; }
 	public CharacterData CharacterData { get; private set; }
-	public IControls Controller { get; private set; }
 
-	void Awake() {
-		CharacterData = GetComponent<CharacterData>();
-		Controller = GetComponent<IControls>();
-		NavMeshAgent = GetComponent<NavMeshAgent>();
-	}
-
-	void Start() {
-		Controller.OnClicked += Controller_OnMove;		
-	}
-
-	void Controller_OnMove (object sender, MoveEvent e)
+	void Awake() 
 	{
-		NavMeshAgent.destination = e.WorldPosition;
+		CharacterData = GetComponent<CharacterData>();
+		NavMeshAgent = GetComponent<NavMeshAgentWithEvents>();
+	}
+
+	void Start() 
+	{
+		NavMeshAgent.OnDestinationChanged += NavMeshAgent_OnDestinationChanged;
+		NavMeshAgent.OnDestinationReached += NavMeshAgent_OnDestinationReached;
+	}
+
+	void OnDestroy() {
+		NavMeshAgent.OnDestinationChanged -= NavMeshAgent_OnDestinationChanged;
+		NavMeshAgent.OnDestinationReached -= NavMeshAgent_OnDestinationReached;
+	}
+
+	void NavMeshAgent_OnDestinationReached (object sender, System.EventArgs e)
+	{
+		Debug.Log("Destination reached");
+	}
+
+	void NavMeshAgent_OnDestinationChanged (object sender, System.EventArgs e)
+	{
+		Debug.Log("Destination changed");
+	}
+
+	public void GoToPosition(Vector3 position) 
+	{
+		NavMeshAgent.Destination = position;
 	}
 }

@@ -4,6 +4,8 @@ using Data;
 
 public class CounterController : MonoBehaviour 
 {
-	public QueueData queue;
-	public CharacterData officer;
+	public CounterData data;
+
+	public QueueController queue;
+	public CharacterController officer;
 }

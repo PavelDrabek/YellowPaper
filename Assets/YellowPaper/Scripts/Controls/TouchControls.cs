@@ -1,32 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TouchControls : MonoBehaviour, IControls {
+namespace Controls {
 
-	void Update () {
-		if(Input.GetMouseButtonDown(0)) {
-			GameObject go = null;
-			Vector3 position = GetClickedPosition(Input.mousePosition, out go);
+	public class TouchControls : PlayerControls {
 
-			if(OnClicked != null) {
-				OnClicked(this, new MoveEvent() { MousePosition = Input.mousePosition, WorldPosition = position, GameObject = go });
+		void Update () {
+			if(Input.GetMouseButtonDown(0)) {
+				GameObject go = null;
+				Vector3 position = GetClickedPosition(Input.mousePosition, out go);
+
+				Player.GoToPosition(position);
+				//OnClicked(this, new MoveEvent() { MousePosition = Input.mousePosition, WorldPosition = position, GameObject = go });
 			}
 		}
-	}
 
-	private Vector3 GetClickedPosition(Vector3 mousePosition, out GameObject go) {
-		RaycastHit hit; 
-		go = null;
-		Ray ray = Camera.main.ScreenPointToRay(mousePosition); 
-		if (Physics.Raycast (ray, out hit)) {
-			go = hit.transform.gameObject;
+		private Vector3 GetClickedPosition(Vector3 mousePosition, out GameObject go) {
+			RaycastHit hit; 
+			go = null;
+			Ray ray = Camera.main.ScreenPointToRay(mousePosition); 
+			if (Physics.Raycast (ray, out hit)) {
+				go = hit.transform.gameObject;
+			}
+			return hit.point;
 		}
-		return hit.point;
 	}
-
-	#region IController implementation
-
-	public event System.EventHandler<MoveEvent> OnClicked;
-
-	#endregion
 }
